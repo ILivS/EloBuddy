@@ -5,7 +5,7 @@ using EloBuddy.SDK;
 using SharpDX;
 using Color = System.Drawing.Color;
 
-namespace Xerath
+namespace LivVel_Koz
 {
     public static class DamageIndicator
     {
