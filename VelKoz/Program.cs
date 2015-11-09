@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
@@ -178,6 +177,8 @@ namespace LivVel_Koz
             Interrupter.OnInterruptableSpell += Interrupter_OnInterruptableSpell;
             Drawing.OnDraw += Drawing_OnDraw;
             Spellbook.OnUpdateChargeableSpell += Spellbook_OnUpdateChargedSpell;
+            DamageIndicator.Initialize(GetComboDamage);
+            DamageIndicator.DrawingColor = System.Drawing.Color.Aqua;
 
         }
 
@@ -207,7 +208,7 @@ namespace LivVel_Koz
            // {
            //     JungleClear();
            // }
-            KillSteal();
+          //  KillSteal();
 
         }
 
@@ -246,16 +247,15 @@ namespace LivVel_Koz
 
             damage = Player.CalculateDamageOnUnit(target, DamageType.Magical, (float)damage) - 20;
             damage += GetUltDmg((AIHeroClient)target);
-            if (Ignite != null && Ignite.IsReady())
-            {
-            damage += Player.GetSummonerSpellDamage(target, DamageLibrary.SummonerSpells.Ignite);
-            }
+           
             damage += GetPassiveDmg();
 
             return (float)damage;
         }
+       
 
-         static float GetPassiveDmg()
+       
+            static float GetPassiveDmg()
         {
             double stack = 0;
             double dmg = 25 + (10 * Player.Level);
@@ -347,20 +347,20 @@ namespace LivVel_Koz
             //R = (Settings["NotUseR" + target.ChampionName] != null && Settings["NotUseR" + target.ChampionName].Cast<CheckBox>().CurrentValue) && useR;
            
            // float dmg = GetComboDamage(target); 
-            if ( W.IsReady() && Player.Distance(target.Position) <= W.Range && useW &&
+            if ( W.IsReady() && Player.Distance(target.Position) <= W.Range  &&
                 W.GetPrediction(target).HitChance >= HitChance.High )
             {
                 W.Cast(target);
                 return;
             }
 
-            if  ( E.IsReady() && Player.Distance(target.Position) < E.Range && useE &&
+            if  ( E.IsReady() && Player.Distance(target.Position) < E.Range  &&
                 E.GetPrediction(target).HitChance >= HitChance.High )
             {
                 E.Cast(target);
                 return;
             }
-            if ( Q.IsReady() && useQ && target.IsValidTarget(Q.Range)  )
+            if ( Q.IsReady()  && target.IsValidTarget(Q.Range)  )
             {
                Q.Cast(target);
                 
@@ -497,26 +497,72 @@ namespace LivVel_Koz
                         
             }
         }
-        private static void KillSteal()
-        {
-            var useQ = Settings["QKs"].Cast<CheckBox>().CurrentValue;
-            var useI = Settings["IKs"].Cast<CheckBox>().CurrentValue;
-
-            if (useQ && useI && Q.IsReady() && Ignite != null && Ignite.IsReady())
-            {
-                var enemies =
-                     EntityManager.Heroes.Enemies.Where(
-                         t =>
-                         t.IsValidTarget() && Ignite.IsInRange(t) && Player.GetSpellDamage(t,SpellSlot.Q) + Player.GetSummonerSpellDamage(t,DamageLibrary.SummonerSpells.Ignite) >= t.Health );
-
-                // Resharper op
-                foreach (var pred in enemies.Select(t => Q.GetPrediction(t)).Where(pred => pred != null).Where(pred => pred.HitChance >= HitChance.High))
-                {
-                    Q.Cast(pred.CastPosition);
-                    Ignite.Cast(pred.CastPosition);
-                }
-
-            }
+       
         }
     }
-}
+
+
+
+
+
+
+
+    
+
+
+       
+
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
