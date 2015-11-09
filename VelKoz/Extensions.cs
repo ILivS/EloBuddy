@@ -3,7 +3,7 @@ using System.Linq;
 using EloBuddy;
 using EloBuddy.SDK;
 
-namespace Xerath
+namespace LivVel_Koz
 {
     public static class Extensions
     {
