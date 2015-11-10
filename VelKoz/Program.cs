@@ -347,20 +347,20 @@ namespace LivSVel_Koz
             //R = (Settings["NotUseR" + target.ChampionName] != null && Settings["NotUseR" + target.ChampionName].Cast<CheckBox>().CurrentValue) && useR;
 
             // float dmg = GetComboDamage(target); 
-            if (W.IsReady() && Player.Distance(target.Position) <= W.Range &&
+            if (W.IsReady() &&  W.IsInRange(target)  &&
                 W.GetPrediction(target).HitChance >= HitChance.High)
             {
                 W.Cast(target);
 
             }
 
-            if (E.IsReady() && Player.Distance(target.Position) < E.Range &&
+            if (E.IsReady() &&  E.IsInRange(target) &&
                 E.GetPrediction(target).HitChance >= HitChance.High)
             {
                 E.Cast(target);
 
             }
-            if (Q.IsReady() && target.IsValidTarget(Q.Range))
+            if (Q.IsReady() && target.IsValidTarget(Q.Range) &&  Q.IsInRange(target) )
             {
                 Q.Cast(target);
 
