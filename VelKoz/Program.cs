@@ -20,21 +20,21 @@ using SharpDX;
 
 
 
-namespace LivVel_Koz
+namespace LivSVel_Koz
 {
     internal class Program
     {
         public static Menu Menu, Settings, Misc;
         public static Spell.Skillshot Q;
-       // public static Spell.Skillshot QSplit;
-       // public static Spell.Skillshot QDummy;
+        // public static Spell.Skillshot QSplit;
+        // public static Spell.Skillshot QDummy;
         public static Spell.Skillshot W;
         public static Spell.Skillshot E;
         public static Spell.Skillshot R;
         public static AIHeroClient Player = ObjectManager.Player;
         public static MissileClient QMissile;
-       
-        public  static Spell.Targeted Ignite;
+
+        public static Spell.Targeted Ignite;
 
 
 
@@ -46,10 +46,10 @@ namespace LivVel_Koz
 
 
             // Game.OnUpdate += Game_OnGameUpdate;
-            
+
 
             Loading.OnLoadingComplete += Loading_OnLoadingComplete;
-           
+
 
 
 
@@ -62,16 +62,16 @@ namespace LivVel_Koz
         public static AIHeroClient _Player
         {
             get { return ObjectManager.Player; }
-       }
+        }
 
         private static void Loading_OnLoadingComplete(EventArgs args)
         {
             if (_Player.Hero != Champion.Velkoz)
             {
-               Chat.Print("Champion not supported!");
-               return;
+                Chat.Print("Champion not supported!");
+                return;
             }
-            
+
 
 
             Chat.Print("Vel_Koz By LivS  LOADED  ", System.Drawing.Color.GreenYellow);
@@ -80,13 +80,13 @@ namespace LivVel_Koz
             // QSplit = new Spell.Skillshot(SpellSlot.Q, 1100, SkillShotType.Linear, 250, 2100, 55);
             //  QDummy = new Spell.Skillshot(SpellSlot.Q, (uint) Math.Sqrt(Math.Pow(Q.Range, 2) + Math.Pow(QSplit.Range, 2)),
             // SkillShotType.Linear, 250, int.MaxValue, 50);
-         
+
             W = new Spell.Skillshot(SpellSlot.W, 1200, SkillShotType.Linear, 250, 1700, 85);
-           
+
             E = new Spell.Skillshot(SpellSlot.E, 800, SkillShotType.Circular, 500, 1500, 100);
-            
+
             R = new Spell.Skillshot(SpellSlot.R, 1550, SkillShotType.Linear, 300, int.MaxValue, 1);
-           
+
             var slot = Player.GetSpellSlotFromName("summonerdot");
             if (slot != SpellSlot.Unknown)
             {
@@ -95,7 +95,7 @@ namespace LivVel_Koz
 
 
             Menu = MainMenu.AddMenu("LivVel_Koz", "LivVel_Koz");
-          
+
             Menu.AddSeparator();
             //ComboMenu
             Settings = Menu.AddSubMenu("Combo", "Combo");
@@ -103,16 +103,16 @@ namespace LivVel_Koz
             Settings.Add("WCombo", new CheckBox("Use W"));
             Settings.Add("ECombo", new CheckBox("Use E"));
             Settings.Add("RCombo", new CheckBox("Use R"));
-           
-            
+
+
 
             Settings.AddSeparator();
             //Harass
             Settings = Menu.AddSubMenu("Harass");
             Settings.Add("QHarass", new CheckBox("Use Q"));
-            Settings.Add("WHarass", new CheckBox("Use W" ));
+            Settings.Add("WHarass", new CheckBox("Use W"));
             Settings.Add("EHarass", new CheckBox("Use E"));
-            
+
             Settings.AddSeparator();
             //Farm
             Settings = Menu.AddSubMenu("LaneClear");
@@ -138,7 +138,7 @@ namespace LivVel_Koz
             Settings = Menu.AddSubMenu("Flee");
             Settings.Add("QFlee", new CheckBox("Use Q", true));
             Settings.Add("WFlee", new CheckBox("Use W", true));
-            
+
             foreach (var hero in EntityManager.Heroes.Enemies)
             {
                 // enemies doesnt need to check for team kappa
@@ -147,9 +147,9 @@ namespace LivVel_Koz
             Misc.AddSeparator();
             //KS
             Settings = Menu.AddSubMenu("KillSteal", "KillSteal");
-           Settings.Add("QKs", new CheckBox("Use Q", true));
-           Settings.Add("WKs", new CheckBox("Use W", true));
-           
+            Settings.Add("QKs", new CheckBox("Use Q", true));
+            Settings.Add("WKs", new CheckBox("Use W", true));
+
             Settings.Add("IKs", new CheckBox("Use Ignite", true));
 
 
@@ -170,7 +170,7 @@ namespace LivVel_Koz
 
 
             Settings.AddSeparator();
-           
+
 
             Game.OnTick += Game_OnTick;
 
@@ -182,7 +182,7 @@ namespace LivVel_Koz
 
         }
 
-     
+
 
         private static void Game_OnTick(EventArgs args)
         {
@@ -196,23 +196,23 @@ namespace LivVel_Koz
             {
                 Combo();
             }
-           // if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
-           // {
-             //   Harass();
-           // }
-           if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear))
+            // if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.Harass))
+            // {
+            //   Harass();
+            // }
+            if (Orbwalker.ActiveModesFlags.HasFlag(Orbwalker.ActiveModes.LaneClear))
             {
                 LaneClear();
-           }
-           // if (Orbwalker.ActiveModesFlags == Orbwalker.ActiveModes.JungleClear)
-           // {
-           //     JungleClear();
-           // }
-          //  KillSteal();
+            }
+            // if (Orbwalker.ActiveModesFlags == Orbwalker.ActiveModes.JungleClear)
+            // {
+            //     JungleClear();
+            // }
+            //  KillSteal();
 
         }
 
-       
+
 
 
         private static void Interrupter_OnInterruptableSpell(Obj_AI_Base sender,
@@ -224,7 +224,7 @@ namespace LivVel_Koz
         }
 
 
-       static  float GetComboDamage(AIHeroClient target)
+        static float GetComboDamage(AIHeroClient target)
         {
             var damage = 0d;
 
@@ -233,7 +233,7 @@ namespace LivVel_Koz
                 damage += Player.GetSpellDamage(target, SpellSlot.Q);
 
             if (W.IsReady())
-                damage +=  Player.GetSpellDamage(target, SpellSlot.W);
+                damage += Player.GetSpellDamage(target, SpellSlot.W);
 
             if (E.IsReady())
                 damage += Player.GetSpellDamage(target, SpellSlot.E);
@@ -247,15 +247,15 @@ namespace LivVel_Koz
 
             damage = Player.CalculateDamageOnUnit(target, DamageType.Magical, (float)damage) - 20;
             damage += GetUltDmg((AIHeroClient)target);
-           
+
             damage += GetPassiveDmg();
 
             return (float)damage;
         }
-       
 
-       
-            static float GetPassiveDmg()
+
+
+        static float GetPassiveDmg()
         {
             double stack = 0;
             double dmg = 25 + (10 * Player.Level);
@@ -285,7 +285,7 @@ namespace LivVel_Koz
             double dmg = 0;
 
             var dist = (Player.ServerPosition.To2D().Distance(target.ServerPosition.To2D()) - 600) / 100;
-           var div = Math.Ceiling(10 - dist);
+            var div = Math.Ceiling(10 - dist);
 
             //Game.PrintChat("ult dmg" + target.BaseSkinName + " " + div);
 
@@ -319,13 +319,13 @@ namespace LivVel_Koz
 
             return (float)dmg;
         }
-    
+
 
         private static void Combo()
         {
             var range = R.IsReady() ? R.Range : Q.Range;
             var target = TargetSelector.GetTarget(range, DamageType.Magical);
-         //   var QPred = Prediction.Position.PredictLinearMissile(target, Q.Range, Q.Radius, Q.CastDelay, Q.Speed, int.MaxValue, Player.ServerPosition);
+            //   var QPred = Prediction.Position.PredictLinearMissile(target, Q.Range, Q.Radius, Q.CastDelay, Q.Speed, int.MaxValue, Player.ServerPosition);
 
             // var qDummyTarget = TargetSelector.GetTarget(QDummy.Range, DamageType.Magical);
             // var qTarget = TargetSelector.GetTarget(Q.Range, DamageType.Magical);
@@ -335,40 +335,40 @@ namespace LivVel_Koz
             //var rTarget = TargetSelector.GetTarget(R.Range, DamageType.Magical);
 
             // var useIgnite = Settings["UseIgnite"].Cast<CheckBox>().CurrentValue;
-            var useQ = Settings["Qcombo"].Cast<CheckBox>().CurrentValue;
-            var useW = Settings["Wcombo"].Cast<CheckBox>().CurrentValue;
-            var useE = Settings["Ecombo"].Cast<CheckBox>().CurrentValue;
-            var useR = Settings["Rcombo"].Cast<CheckBox>().CurrentValue;
-            
+            var useQ = Settings["QCombo"].Cast<CheckBox>().CurrentValue;
+            var useW = Settings["WCombo"].Cast<CheckBox>().CurrentValue;
+            var useE = Settings["ECombo"].Cast<CheckBox>().CurrentValue;
+            var useR = Settings["RCombo"].Cast<CheckBox>().CurrentValue;
+
             if (target == null)
                 return;
 
 
             //R = (Settings["NotUseR" + target.ChampionName] != null && Settings["NotUseR" + target.ChampionName].Cast<CheckBox>().CurrentValue) && useR;
-           
-           // float dmg = GetComboDamage(target); 
-            if ( W.IsReady() && Player.Distance(target.Position) <= W.Range  &&
-                W.GetPrediction(target).HitChance >= HitChance.High )
+
+            // float dmg = GetComboDamage(target); 
+            if (W.IsReady() && Player.Distance(target.Position) <= W.Range &&
+                W.GetPrediction(target).HitChance >= HitChance.High)
             {
                 W.Cast(target);
-                return;
+
             }
 
-            if  ( E.IsReady() && Player.Distance(target.Position) < E.Range  &&
-                E.GetPrediction(target).HitChance >= HitChance.High )
+            if (E.IsReady() && Player.Distance(target.Position) < E.Range &&
+                E.GetPrediction(target).HitChance >= HitChance.High)
             {
                 E.Cast(target);
-                return;
+
             }
-            if ( Q.IsReady()  && target.IsValidTarget(Q.Range)  )
+            if (Q.IsReady() && target.IsValidTarget(Q.Range))
             {
-               Q.Cast(target);
-                
-                
-                
-                return;
+                Q.Cast(target);
+
+
+
+
             }
-            if ( R.IsReady() && Player.Distance(target.Position) < R.Range  && useR )
+            if (R.IsReady() && Player.Distance(target.Position) < R.Range && useR)
             {
                 if (GetUltDmg(target) >= target.Health)
                 {
@@ -403,12 +403,12 @@ namespace LivVel_Koz
             }
 
         }
-       
 
-    private static void LaneClear()
-        
-            {
-           
+
+        private static void LaneClear()
+
+        {
+
             var minionlc = Settings["minionw"].Cast<Slider>().CurrentValue;
             var manalc = Settings["ManaClear"].Cast<Slider>().CurrentValue;
 
@@ -417,39 +417,39 @@ namespace LivVel_Koz
 
             var useW = Settings["WFarm"].Cast<CheckBox>().CurrentValue;
             var useE = Settings["EFarm"].Cast<CheckBox>().CurrentValue;
-            if ( Player.ManaPercent <= manalc) return;
-         
-            
-
-                if (Q.IsReady() && useQ )
-                {
-                    var target =
-                        EntityManager.MinionsAndMonsters.GetLaneMinions(EntityManager.UnitTeam.Enemy,Player.ServerPosition,Q.Range).ToArray();
-                    var pred = EntityManager.MinionsAndMonsters.GetLineFarmLocation(target, Q.Width, (int) Q.Range);
-
-                    if (pred.HitNumber >= minionlc)
-                    {
-                        Q.Cast(pred.CastPosition);
-                    }
-                }
-            
+            if (Player.ManaPercent <= manalc) return;
 
 
-            if ( W.IsReady()  && useW )
+
+            if (Q.IsReady() && useQ)
             {
-                var minions = EntityManager.MinionsAndMonsters.GetLaneMinions(EntityManager.UnitTeam.Enemy, Player.ServerPosition, W.Range + W.Width ).ToArray();
-                
-               
-                    var farmLocation = EntityManager.MinionsAndMonsters.GetLineFarmLocation(minions, W.Width, (int)W.Range);
-                    if (farmLocation.HitNumber >= minionlc)
+                var target =
+                    EntityManager.MinionsAndMonsters.GetLaneMinions(EntityManager.UnitTeam.Enemy, Player.ServerPosition, Q.Range).ToArray();
+                var pred = EntityManager.MinionsAndMonsters.GetLineFarmLocation(target, Q.Width, (int)Q.Range);
+
+                if (pred.HitNumber >= minionlc)
+                {
+                    Q.Cast(pred.CastPosition);
+                }
+            }
+
+
+
+            if (W.IsReady() && useW)
+            {
+                var minions = EntityManager.MinionsAndMonsters.GetLaneMinions(EntityManager.UnitTeam.Enemy, Player.ServerPosition, W.Range + W.Width).ToArray();
+
+
+                var farmLocation = EntityManager.MinionsAndMonsters.GetLineFarmLocation(minions, W.Width, (int)W.Range);
+                if (farmLocation.HitNumber >= minionlc)
+                {
+                    if (W.Cast(farmLocation.CastPosition))
                     {
-                        if (W.Cast(farmLocation.CastPosition))
-                        {
-                            return;
-                        }
+
                     }
                 }
-            
+            }
+
 
             if (useE && E.IsReady())
             {
@@ -460,17 +460,17 @@ namespace LivVel_Koz
                 {
                     if (W.Cast(ePos.CastPosition))
                     {
-                        return;
+
                     }
                 }
             }
         }
 
-      
 
 
 
-       protected void GameObject_OnCreate(GameObject obj, EventArgs args)
+
+        protected void GameObject_OnCreate(GameObject obj, EventArgs args)
         {
             // return if its not a missle
             if (!(obj is MissileClient))
@@ -493,13 +493,13 @@ namespace LivVel_Koz
         {
             if (!sender.Owner.IsMe)
             {
-                return;
-                        
+
+
             }
         }
-       
-        }
+
     }
+}
 
 
 
@@ -507,12 +507,12 @@ namespace LivVel_Koz
 
 
 
-    
 
 
-       
 
-    
+
+
+
 
 
 
